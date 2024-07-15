@@ -1,7 +1,9 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js";
-
+import { FontLoader } from "https://esm.sh/three/examples/jsm/loaders/FontLoader.js";
+import { TextGeometry } from "https://esm.sh/three/examples/jsm/geometries/TextGeometry.js";
+import { color } from "three/examples/jsm/nodes/Nodes.js";
 // Background texture
 const hdrTextureURL = new URL(
   "/img/MR_INT-003_Kitchen_Pierre.hdr",
@@ -72,6 +74,34 @@ const sphere3 = new THREE.Mesh(
     color: 0xff0000,
   })
 );
+
+const fontLoader = new FontLoader();
+fontLoader.load(
+  "https://threejs.org/examples/fonts/helvetiker_regular.typeface.json",
+  function (font) {
+    const textGeometry = new TextGeometry(
+      "Welcome, to my project ! \n Realistic Spheres\n make by LdwgL",
+      {
+        font: font,
+        size: 2,
+        height: 1,
+        wireframe: true,
+        curveSegments: 12,
+        bevelEnabled: true,
+        bevelThickness: 0.1,
+        bevelSize: 0.01,
+        bevelOffset: 0,
+        bevelSegments: 5,
+      }
+    );
+
+    const textMaterial = new THREE.MeshBasicMaterial();
+    const textMesh = new THREE.Mesh(textGeometry, textMaterial);
+    textMesh.position.set(0, 10, -20); // Adjust the position as needed
+    scene.add(textMesh);
+  }
+);
+
 scene.add(sphere3);
 sphere3.position.x = 4.5;
 
